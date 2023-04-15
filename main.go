@@ -8,7 +8,7 @@ import (
 
 type game struct {
 	ChainName          string
-	BidIncrement       int
+	BidIncrement       float32
 	BidToken           string
 	Playercount        int
 	StartingCoinAmount int
