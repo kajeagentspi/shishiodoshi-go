@@ -20,6 +20,7 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/cmd/utils"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -54,8 +55,8 @@ type WinningInfo struct {
 }
 
 var masterController *Controller
-var gameAddress = common.HexToAddress("0xd8496B7CEa1844A6097351DA3ADd39560bf1B8Ea")
-var tokenAddress = common.HexToAddress("0x4520452457766B8a5C5371081b13F7B3D44C47c4")
+var gameAddress = common.HexToAddress("0x1e6c3bd6f9d01814fff919fc2c2f80de3a105627")
+var tokenAddress = common.HexToAddress("0xd259fD0089c277c35a93C47Bc2A0771AC0c79A3C")
 var linkPrefix = "https://shishiodoshi.com/game/"
 
 func loadABI(filepath string) abi.ABI {
@@ -433,6 +434,13 @@ func newGame(rw http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+	privateKey, err := crypto.GenerateKey()
+	if err != nil {
+		log.Fatal(err)
+	}
+	privateKeyBytes := crypto.FromECDSA(privateKey)
+	fmt.Println(hexutil.Encode(privateKeyBytes))
+
 	masterController = newController()
 	http.HandleFunc("/newGame", newGame)
 	go http.ListenAndServe(":8082", nil)
